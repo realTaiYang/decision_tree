@@ -29,13 +29,13 @@ class Node:
         for c in self.cls:
             pi_c = self.pi(c)
             if pi_c != 0:
-                res -= pi_c * np.log2(pi_c)
+                res -= pi_c * np.log(pi_c)
         return res
 
     # Check Node is pure or not
     def is_pure(self):
         for cl in self.cls:
-            if self.pi(cl) > 0.99:
+            if self.pi(cl) > 0.95:
                 return True
         return False
 
@@ -54,9 +54,9 @@ class Node:
             right_ys = [self.y[self.X.iloc[:, col] >= pt] for pt in pts]
 
             left_subnodes = [Node(left_Xs[i], left_ys[i]) for i in range(len(left_Xs))]
-            left_entropy = np.array([node.entropy() * node.pts for node in left_subnodes])
+            left_entropy = np.array([node.entropy() * node.pts / self.pts for node in left_subnodes])
             right_subnodes = [Node(right_Xs[i], right_ys[i]) for i in range(len(right_Xs))]
-            right_entropy = np.array([node.entropy() * node.pts for node in right_subnodes])
+            right_entropy = np.array([node.entropy() * node.pts / self.pts for node in right_subnodes])
 
             sub_entropy = left_entropy + right_entropy
             simMin = np.min(sub_entropy)
