@@ -18,6 +18,11 @@ class Node:
                 self.cls.append(cl)
 
     # Compute proportion of class c
+    def pt(self, c):
+        if c not in self.cls:
+            raise ValueError("Wrong class specified")
+        return self.y[self.y == c].shape[0]
+
     def pi(self, c):
         if c not in self.cls:
             raise ValueError("Wrong class specified")
